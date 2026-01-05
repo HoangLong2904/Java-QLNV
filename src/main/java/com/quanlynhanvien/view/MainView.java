@@ -11,7 +11,10 @@ public class MainView extends JFrame {
     // Các màn hình con (View)
     private EmployeeView employeePanel;
     private DepartmentPanel departmentPanel;
-    private PositionPanel positionPanel; // MỚI THÊM: Panel Chức vụ
+    private PositionPanel positionPanel;
+    
+    // MỚI: Panel Thống kê
+    private StatisticsPanel statisticsPanel; 
 
     public MainView(String role) {
         setTitle("HỆ THỐNG QUẢN TRỊ");
@@ -48,13 +51,11 @@ public class MainView extends JFrame {
         JButton btnNhanVien = createMenuButton("Quản lý nhân viên");
         JButton btnPhongBan = createMenuButton("Quản lý phòng ban");
         JButton btnChucVu = createMenuButton("Quản lý chức vụ");
-        JButton btnTaiKhoan = createMenuButton("Cấp quyền tài khoản");
         JButton btnThongKe = createMenuButton("Báo cáo thống kê");
 
         pnlMenu.add(btnNhanVien);
         pnlMenu.add(btnPhongBan);
         pnlMenu.add(btnChucVu);
-        pnlMenu.add(btnTaiKhoan);
         pnlMenu.add(btnThongKe);
 
         add(pnlMenu, BorderLayout.WEST);
@@ -69,22 +70,24 @@ public class MainView extends JFrame {
         employeePanel.setRole(role); 
         
         departmentPanel = new DepartmentPanel();
+        positionPanel = new PositionPanel(); 
         
-        positionPanel = new PositionPanel(); // MỚI THÊM: Khởi tạo Panel Chức vụ
+        // MỚI: Khởi tạo Panel Thống kê
+        statisticsPanel = new StatisticsPanel(); 
         
         // Thêm vào CardLayout
         pnlCard.add(employeePanel, "NHANVIEN");
         pnlCard.add(departmentPanel, "PHONGBAN");
-        pnlCard.add(positionPanel, "CHUCVU"); // MỚI THÊM: Gắn Panel vào CardLayout
-        pnlCard.add(new JLabel("Chức năng Tài Khoản đang phát triển...", JLabel.CENTER), "TAIKHOAN");
+        pnlCard.add(positionPanel, "CHUCVU");
+        pnlCard.add(statisticsPanel, "THONGKE");        
 
         add(pnlCard, BorderLayout.CENTER);
 
         // --- XỬ LÝ SỰ KIỆN CHUYỂN TAB ---
         btnNhanVien.addActionListener(e -> cardLayout.show(pnlCard, "NHANVIEN"));
         btnPhongBan.addActionListener(e -> cardLayout.show(pnlCard, "PHONGBAN"));
-        btnChucVu.addActionListener(e -> cardLayout.show(pnlCard, "CHUCVU")); // Chuyển sang tab Chức vụ
-        btnTaiKhoan.addActionListener(e -> cardLayout.show(pnlCard, "TAIKHOAN"));
+        btnChucVu.addActionListener(e -> cardLayout.show(pnlCard, "CHUCVU"));
+        btnThongKe.addActionListener(e -> cardLayout.show(pnlCard, "THONGKE"));
         
         // Sự kiện Đăng xuất
         btnLogout.addActionListener(e -> {
@@ -111,6 +114,8 @@ public class MainView extends JFrame {
     
     public DepartmentPanel getDepartmentPanel() { return departmentPanel; }
     
-    // MỚI THÊM: Getter cho PositionPanel
     public PositionPanel getPositionPanel() { return positionPanel; }
+    
+    // MỚI: Getter cho StatisticsPanel
+    public StatisticsPanel getStatisticsPanel() { return statisticsPanel; }
 }

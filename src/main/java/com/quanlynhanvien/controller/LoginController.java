@@ -16,68 +16,77 @@ public class LoginController {
         this.loginView.addLoginListener(e -> handleLogin());
     }
 
-private void handleLogin() {
-    try {
-        // 1. Lấy thông tin từ giao diện
-        String user = loginView.getUsername();
-        String pass = loginView.getPassword();
+    private void handleLogin() {
+        try {
+            // 1. Lấy thông tin từ giao diện
+            String user = loginView.getUsername();
+            String pass = loginView.getPassword();
 
-        if (user.isEmpty() || pass.isEmpty()) {
-            loginView.showMessage("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
-            return;
-        }
-        
-        // 2. Kiểm tra đăng nhập qua AccountDAO
-        if (accountDAO.checkLogin(user, pass)) {
-            // Lấy quyền (Role) và Mã nhân viên (MaNV) liên kết với tài khoản này
-            String role = accountDAO.getUserRole(user);
-            String maNV = accountDAO.getMaNVByUsername(user); // Hàm này bạn đã thêm ở Bước 2
-
-            // 3. Đóng cửa sổ đăng nhập
-            loginView.dispose();
-
-            // 4. Kiểm tra quyền để mở màn hình tương ứng
-            if ("Admin".equalsIgnoreCase(role)) {
-                // Nếu là Admin -> Mở MainView (Màn hình quản trị tổng thể)
-                openAdminScreen(role);
-            } else {
-                // Nếu là User -> Mở UserView (Màn hình cá nhân)
-                // Phải có MaNV thì mới lấy được thông tin nhân viên để hiển thị
-                if (maNV != null && !maNV.isEmpty()) {
-                    openUserScreen(maNV); 
-                } else {
-                    JOptionPane.showMessageDialog(null, "Lỗi: Tài khoản này chưa được gán Mã Nhân Viên!");
-                    // Nếu lỗi có thể cho quay lại màn hình login hoặc xử lý tùy ý
-                }
+            if (user.isEmpty() || pass.isEmpty()) {
+                loginView.showMessage("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
+                return;
             }
-        } else {
-            loginView.showMessage("Tài khoản hoặc mật khẩu không chính xác!");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(loginView, "Lỗi hệ thống: " + e.getMessage());
-    }
-}
-    
-    // Tách hàm để dễ quản lý lỗi
-    private void openAdminScreen(String role) {
-    MainView mainView = new MainView(role); // Mở MainView cho Admin
-    // Khởi tạo các controller cho các tab của Admin
-    new EmployeeController(mainView.getEmployeePanel(), role);
-    new DepartmentController(mainView.getDepartmentPanel());
-    new PositionController(mainView.getPositionPanel());
-    mainView.setVisible(true);
-}
+            
+            // 2. Kiểm tra đăng nhập qua AccountDAO
+            if (accountDAO.checkLogin(user, pass)) {
+                // Lấy quyền (Role) và Mã nhân viên (MaNV) liên kết với tài khoản này
+                String role = accountDAO.getUserRole(user);
+                String maNV = accountDAO.getMaNVByUsername(user); 
 
-  private void openUserScreen(String maNV) {
-    try {
-        // Khởi tạo giao diện cá nhân
-        UserView userView = new UserView(maNV); 
-        // Khởi tạo Controller điều khiển dữ liệu cho giao diện đó
-        new UserController(userView, maNV); 
-        userView.setVisible(true);
-    } catch (Exception e) {
-        e.printStackTrace();
+                // 3. Đóng cửa sổ đăng nhập
+                loginView.dispose();
+
+                // 4. Kiểm tra quyền để mở màn hình tương ứng
+                // Role "0" là Admin, các role khác (hoặc "1") là User
+                if ("0".equals(role) || "Admin".equalsIgnoreCase(role)) {
+                    openAdminScreen(role);
+                } else {
+                    // Nếu là User -> Mở UserView (Màn hình cá nhân)
+                    if (maNV != null && !maNV.isEmpty()) {
+                        openUserScreen(maNV); 
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Lỗi: Tài khoản này chưa được gán Mã Nhân Viên!");
+                    }
+                }
+            } else {
+                loginView.showMessage("Tài khoản hoặc mật khẩu không chính xác!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(loginView, "Lỗi hệ thống: " + e.getMessage());
+        }
     }
-}
+    
+    // --- HÀM MỞ GIAO DIỆN ADMIN ---
+    private void openAdminScreen(String role) {
+        try {
+            MainView mainView = new MainView(role); // Mở MainView
+            
+            // Khởi tạo các controller con để điều khiển từng tab chức năng
+            new EmployeeController(mainView.getEmployeePanel(), role);
+            new DepartmentController(mainView.getDepartmentPanel());
+            new PositionController(mainView.getPositionPanel());
+            
+            // QUAN TRỌNG: Kích hoạt Controller cho phần Thống kê
+            // Nếu thiếu dòng này, tab Thống kê sẽ không hoạt động
+            new StatisticsController(mainView.getStatisticsPanel());
+            
+            mainView.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo màn hình Admin: " + e.getMessage());
+        }
+    }
+
+    // --- HÀM MỞ GIAO DIỆN USER ---
+    private void openUserScreen(String maNV) {
+        try {
+            UserView userView = new UserView(maNV); 
+            new UserController(userView, maNV); 
+            userView.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo màn hình User: " + e.getMessage());
+        }
+    }
 }
