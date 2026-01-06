@@ -10,13 +10,9 @@ public class Employee {
     private String sdt;
     private String queQuan;
     private String email;
-    
-    // Các trường mới (QUAN TRỌNG)
-    private String hinhAnh;   // Đường dẫn ảnh
-    private String maCV;      // Mã chức vụ (Lưu DB)
-    private String maPB;      // Mã phòng ban (Lưu DB)
-    
-    // Các trường hiển thị (Không lưu DB)
+    private String hinhAnh;
+    private String maCV;      
+    private String maPB;     
     private String tenChucVu; 
     private String tenPhongBan;
 

@@ -30,32 +30,24 @@ public class EmployeeController {
         this.accDao = new AccountDAO(); 
         
         // Phân quyền giao diện: Nếu là "0" (Admin) thì cho phép sửa/xóa, "1" (User) thì chỉ xem
-        // Lưu ý: Trong MainView đã truyền role vào, ta cần xử lý logic hiển thị
         String roleName = "0".equals(role) ? "Admin" : "User";
         this.view.setRole(roleName); 
         
-        // 1. Tải dữ liệu ban đầu
         loadComboBoxData();
         loadData();
         
-        // 2. Gán sự kiện cho các nút bấm
         this.view.addAddListener(e -> addEmployee());
         this.view.addEditListener(e -> updateEmployee());
         this.view.addDeleteListener(e -> deleteEmployee());
-        
-        // Nút làm mới đã được xử lý sự kiện trong View, nhưng nếu cần logic thêm có thể gán ở đây
         this.view.addClearListener(null); 
-        
         this.view.addExportListener(e -> exportToExcel());
     }
 
     private void loadComboBoxData() {
-        // Lấy danh sách Phòng ban và Chức vụ để đổ vào ComboBox trong View
         view.updateComboBoxData(depDao.getAllDepartments(), posDao.getAllPositions());
     }
 
     private void loadData() {
-        // Lấy danh sách nhân viên từ DB và hiển thị lên Bảng
         view.showListEmployees(empDao.getAllEmployees());
     }
 
@@ -64,24 +56,11 @@ public class EmployeeController {
         Employee emp = view.getEmployeeFromForm();
         
         if (emp != null) {
-            // Kiểm tra ràng buộc: Phải chọn Chức vụ và Phòng ban
             if (emp.getMaCV().isEmpty() || emp.getMaPB().isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Vui lòng chọn Chức vụ và Phòng ban!");
                 return;
             }
-            
-            // 1. Thêm nhân viên vào bảng NhanVien
-            // Lưu ý: Nếu empDao chưa có hàm addEmployee, bạn cần cập nhật EmployeeDAO như hướng dẫn trước
             if (empDao.addEmployee(emp)) {
-                
-                // 2. Tự động tạo tài khoản đăng nhập
-                // - Username = Mã NV
-                // - Password = "123" (Mặc định)
-                // - Role = "1" (User thường)
-                // - MaNV = Mã NV (Để liên kết dữ liệu)
-                
-                // CẢNH BÁO: Nếu AccountDAO chưa cập nhật hàm createAccount nhận 4 tham số, dòng dưới sẽ báo lỗi đỏ.
-                // Bạn cần sửa AccountDAO.createAccount(String user, String pass, String role, String maNV)
                 boolean accCreated = accDao.createAccount(emp.getMaNV(), "123", "1", emp.getMaNV());
                 
                 String msg = "Thêm nhân viên thành công!";
@@ -92,7 +71,7 @@ public class EmployeeController {
                 }
                 
                 JOptionPane.showMessageDialog(view, msg);
-                loadData(); // Tải lại bảng danh sách
+                loadData(); 
             } else {
                 JOptionPane.showMessageDialog(view, "Thêm thất bại! (Có thể trùng Mã NV)");
             }
@@ -116,10 +95,8 @@ public class EmployeeController {
     
     // --- CHỨC NĂNG XÓA ---
     private void deleteEmployee() {
-        // Lấy thông tin nhân viên đang được chọn (chỉ cần lấy Mã NV)
         Employee emp = view.getEmployeeFromForm();
         
-        // Kiểm tra xem người dùng đã chọn nhân viên chưa (dựa vào Mã NV trên form)
         if (emp.getMaNV() == null || emp.getMaNV().isEmpty()) {
              JOptionPane.showMessageDialog(view, "Vui lòng chọn nhân viên cần xóa trên bảng!");
              return;
@@ -130,10 +107,8 @@ public class EmployeeController {
                 "Tài khoản đăng nhập và các dữ liệu liên quan cũng sẽ bị xóa vĩnh viễn.", 
                 "Xác nhận xóa", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             
-            // 1. Xóa trong bảng NhanVien
             if (empDao.deleteEmployee(emp.getMaNV())) {
                 
-                // 2. Xóa tài khoản đăng nhập tương ứng trong bảng TaiKhoan
                 accDao.deleteAccount(emp.getMaNV());
                 
                 JOptionPane.showMessageDialog(view, "Đã xóa nhân viên và tài khoản liên quan!");
@@ -160,7 +135,6 @@ public class EmployeeController {
             try (Workbook workbook = new XSSFWorkbook()) { 
                 Sheet sheet = workbook.createSheet("Danh Sách Nhân Viên");
                 
-                // Tạo Header
                 Row headerRow = sheet.createRow(0);
                 String[] columns = {"Mã NV", "Họ Tên", "Ngày Sinh", "Giới Tính", "SĐT", "Quê Quán", "Email", "Chức Vụ", "Phòng Ban"};
                 
@@ -175,7 +149,6 @@ public class EmployeeController {
                     cell.setCellStyle(headerStyle);
                 }
                 
-                // Ghi dữ liệu
                 List<Employee> list = empDao.getAllEmployees();
                 int rowNum = 1;
                 for (Employee emp : list) {

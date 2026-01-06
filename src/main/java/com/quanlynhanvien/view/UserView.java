@@ -17,33 +17,25 @@ public class UserView extends JFrame {
     private JPanel pnlCard;
     private CardLayout cardLayout;
     private String username;
-
     private JTextField txtMaNV, txtMaPB, txtMaCV;
     private JTextField txtHoTen, txtSDT, txtQueQuan, txtEmail;
     private JComboBox<String> cbNgay, cbThang, cbNam, cbGioiTinh;
     private JLabel lblAvatar; 
-    private JButton btnEdit; 
-    
+    private JButton btnEdit;    
     private JTextField txtSalaryMaNV, txtSalaryTenNV, txtSalaryMaPB, txtSalaryMaCV;
     private JTextField txtWorkDays, txtPhuCap, txtThuong, txtLuongDuKien;
     private JLabel lblSalaryAvatar;
     private JTextArea txtGhiChu;
-
     private int selectedYear = 2025;      
     private int selectedMonth = 1;       
     private int dayOffCount = 0;         
-    
-    // MỚI: Danh sách lưu trữ các ngày đã bôi đỏ
     private List<Integer> listSelectedDays = new ArrayList<>();
-
     private JPanel pnlCalendarGrid;      
     private JTextField txtYear, txtDayOff; 
     private JComboBox<Integer> cbMonth;    
     private JButton btnScheduleOk; 
-
     private File selectedAvatarFile = null;
-    private String selectedAvatarPath = null; // Thêm để lưu đường dẫn ảnh
-
+    private String selectedAvatarPath = null; 
     public UserView(String username) {
         this.username = username;
         setTitle("HỆ THỐNG NHÂN VIÊN");
@@ -374,8 +366,6 @@ public class UserView extends JFrame {
         for (int i = 1; i <= maxDays; i++) {
             final int day = i;
             JButton btnDay = new JButton(String.valueOf(i));
-            
-            // KIỂM TRA: Nếu ngày nằm trong danh sách đã chọn thì bôi đỏ luôn
             if (listSelectedDays.contains(day)) {
                 btnDay.setBackground(Color.RED);
                 btnDay.setForeground(Color.WHITE);
@@ -418,12 +408,11 @@ public class UserView extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             selectedAvatarFile = fileChooser.getSelectedFile();
-            selectedAvatarPath = selectedAvatarFile.getAbsolutePath(); // Cập nhật đường dẫn
+            selectedAvatarPath = selectedAvatarFile.getAbsolutePath(); 
             displayImage(selectedAvatarPath);
         }
     }
 
-    // Hàm phụ để vẽ ảnh lên Label
     private void displayImage(String path) {
         if (path != null && !path.isEmpty()) {
             File file = new File(path);
@@ -449,8 +438,6 @@ public class UserView extends JFrame {
         txtHoTen.setText(emp.getHoTen()); txtSDT.setText(emp.getSdt());
         txtQueQuan.setText(emp.getQueQuan()); txtEmail.setText(emp.getEmail());
         cbGioiTinh.setSelectedItem(emp.getGioiTinh());
-        
-        // CẬP NHẬT: Hiển thị ảnh nếu có trong Database
         if (emp.getHinhAnh() != null) {
             this.selectedAvatarPath = emp.getHinhAnh();
             displayImage(selectedAvatarPath);
@@ -468,7 +455,7 @@ public class UserView extends JFrame {
         e.setMaNV(txtMaNV.getText()); e.setHoTen(txtHoTen.getText()); e.setSdt(txtSDT.getText());
         e.setQueQuan(txtQueQuan.getText()); e.setEmail(txtEmail.getText());
         e.setGioiTinh(cbGioiTinh.getSelectedItem().toString());
-        e.setHinhAnh(this.selectedAvatarPath); // CẬP NHẬT: Đưa đường dẫn ảnh vào Employee
+        e.setHinhAnh(this.selectedAvatarPath); 
         String dateStr = cbNam.getSelectedItem() + "-" + cbThang.getSelectedItem() + "-" + cbNgay.getSelectedItem();
         e.setNgaySinh(java.sql.Date.valueOf(dateStr));
         return e;
@@ -495,15 +482,12 @@ public class UserView extends JFrame {
         this.txtDayOff.setText(String.valueOf(count));
         updateSalaryData();
     }
-    
-    // MỚI: Hàm để Controller truyền danh sách ngày nghỉ chi tiết vào để bôi đỏ
     public void setSavedDays(List<Integer> days) {
         this.listSelectedDays.clear();
         if(days != null) this.listSelectedDays.addAll(days);
         renderCalendar();
     }
 
-    // MỚI: Hàm để Controller lấy danh sách ngày đã chọn để lưu vào DB
     public List<Integer> getSelectedDaysList() {
         return new ArrayList<>(listSelectedDays);
     }

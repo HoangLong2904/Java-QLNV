@@ -50,9 +50,7 @@ public class UserController {
         }
     }
 
-    /**
-     * Hàm Load dữ liệu lương và các ngày nghỉ (ô đỏ) từ Database lên View
-     */
+
     private void loadDataToView() {
         int thang = view.getSelectedMonth();
         int nam = view.getSelectedYear();
@@ -74,9 +72,6 @@ public class UserController {
         }
     }
 
-    /**
-     * Xử lý khi người dùng nhấn nút Sửa
-     */
     private void handleUpdateInfo() {
         try {
             // Lấy dữ liệu từ Form (Lúc này view.getEmployeeFromForm() phải lấy được path ảnh)
@@ -103,9 +98,6 @@ public class UserController {
         }
     }
 
-    /**
-     * Xử lý khi người dùng nhấn nút OK ở tab Lịch làm việc
-     */
     private void handleSaveSalary() {
         int thang = view.getSelectedMonth(); 
         int nam = view.getSelectedYear(); 

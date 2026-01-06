@@ -27,13 +27,10 @@ public class LoginController {
                 return;
             }
             
-            // 2. Kiểm tra đăng nhập qua AccountDAO
             if (accountDAO.checkLogin(user, pass)) {
-                // Lấy quyền (Role) và Mã nhân viên (MaNV) liên kết với tài khoản này
                 String role = accountDAO.getUserRole(user);
                 String maNV = accountDAO.getMaNVByUsername(user); 
 
-                // 3. Đóng cửa sổ đăng nhập
                 loginView.dispose();
 
                 // 4. Kiểm tra quyền để mở màn hình tương ứng
@@ -66,9 +63,6 @@ public class LoginController {
             new EmployeeController(mainView.getEmployeePanel(), role);
             new DepartmentController(mainView.getDepartmentPanel());
             new PositionController(mainView.getPositionPanel());
-            
-            // QUAN TRỌNG: Kích hoạt Controller cho phần Thống kê
-            // Nếu thiếu dòng này, tab Thống kê sẽ không hoạt động
             new StatisticsController(mainView.getStatisticsPanel());
             
             mainView.setVisible(true);

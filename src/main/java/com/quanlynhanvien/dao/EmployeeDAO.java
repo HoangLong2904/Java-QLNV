@@ -10,7 +10,6 @@ import java.util.List;
 
 public class EmployeeDAO {
 
-    // 1. Lấy danh sách nhân viên (KẾT NỐI 3 BẢNG để lấy Tên CV và Tên PB)
     public List<Employee> getAllEmployees() {
         List<Employee> list = new ArrayList<>();
         String sql = "SELECT nv.*, cv.TenCV, pb.TenPB FROM NhanVien nv " +
@@ -29,7 +28,6 @@ public class EmployeeDAO {
         return list;
     }
 
-    // 2. Thêm nhân viên mới (Đầy đủ các trường bao gồm MaCV, MaPB, HinhAnh)
     public boolean addEmployee(Employee emp) {
         String sql = "INSERT INTO NhanVien(MaNV, HoTen, NgaySinh, GioiTinh, SDT, QueQuan, Email, MaCV, MaPB, HinhAnh) " +
                      "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -54,7 +52,6 @@ public class EmployeeDAO {
         }
     }
 
-    // 3. Cập nhật thông tin nhân viên
     public boolean updateEmployee(Employee emp) {
         String sql = "UPDATE NhanVien SET HoTen=?, NgaySinh=?, GioiTinh=?, SDT=?, QueQuan=?, Email=?, MaCV=?, MaPB=?, HinhAnh=? WHERE MaNV=?";
         try (Connection conn = ConnectDB.getConnection();
@@ -78,7 +75,6 @@ public class EmployeeDAO {
         }
     }
 
-    // 4. Xóa nhân viên
     public boolean deleteEmployee(String maNV) {
         // Lưu ý: Nếu Database chưa set CASCADE, bạn cần xóa dữ liệu ở các bảng con (BangLuong, TaiKhoan...) trước
         String sql = "DELETE FROM NhanVien WHERE MaNV=?";

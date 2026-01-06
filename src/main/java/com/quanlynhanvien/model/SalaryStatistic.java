@@ -32,7 +32,7 @@ public class SalaryStatistic {
     
     // Tính số ngày đi làm (Giả sử tháng chuẩn 26 công)
     public int getSoNgayDiLam() {
-        int workDays = 26 - soNgayNghi;
+        int workDays = 30 - soNgayNghi;
         return workDays < 0 ? 0 : workDays;
     }
 }
