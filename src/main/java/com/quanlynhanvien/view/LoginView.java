@@ -9,7 +9,6 @@ public class LoginView extends JFrame {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
-    // Đã xóa lblRegister (Nút đăng ký)
 
     public LoginView() {
         setTitle("Đăng Nhập Hệ Thống");
@@ -18,21 +17,19 @@ public class LoginView extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Header
         JLabel lblHeader = new JLabel("ĐĂNG NHẬP", JLabel.CENTER);
         lblHeader.setFont(new Font("Arial", Font.BOLD, 24));
         lblHeader.setForeground(Color.BLUE);
         lblHeader.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(lblHeader, BorderLayout.NORTH);
 
-        // Form
         JPanel pnlForm = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbc.gridx = 0; gbc.gridy = 0;
-        pnlForm.add(new JLabel("Tài khoản:"), gbc); // Sửa label cho rõ nghĩa
+        pnlForm.add(new JLabel("Tài khoản:"), gbc); 
 
         gbc.gridx = 1; gbc.gridy = 0;
         txtUsername = new JTextField(15);
@@ -47,7 +44,6 @@ public class LoginView extends JFrame {
 
         add(pnlForm, BorderLayout.CENTER);
 
-        // Button Panel
         JPanel pnlButton = new JPanel(new FlowLayout());
         btnLogin = new JButton("Đăng nhập");
         btnLogin.setBackground(new Color(0, 102, 204));
@@ -64,8 +60,6 @@ public class LoginView extends JFrame {
     public void showMessage(String msg) { JOptionPane.showMessageDialog(this, msg); }
     public void addLoginListener(ActionListener al) { btnLogin.addActionListener(al); }
     
-    // Hàm này giữ lại nhưng để trống hoặc xóa đi bên Controller cũng được
     public void addRegisterListener(MouseAdapter ma) { 
-        // Không làm gì cả vì đã xóa nút đăng ký
     }
 }

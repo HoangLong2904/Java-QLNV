@@ -54,8 +54,7 @@ public class PositionController {
             JOptionPane.showMessageDialog(view, "Chọn chức vụ cần xóa!");
             return;
         }
-        
-        // Kiểm tra ràng buộc dữ liệu
+
         if (dao.hasEmployees(p.getMaCV())) {
             JOptionPane.showMessageDialog(view, "Không thể xóa: Đang có nhân viên giữ chức vụ này!");
             return;

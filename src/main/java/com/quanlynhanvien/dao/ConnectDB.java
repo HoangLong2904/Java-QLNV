@@ -7,10 +7,9 @@ public class ConnectDB {
     public static Connection getConnection() {
         Connection conn = null;
         try {
-            // Chuỗi kết nối cho MySQL (XAMPP mặc định cổng 3306)
             String url = "jdbc:mysql://localhost:3306/QuanLyNhanSu?useSSL=false&characterEncoding=UTF-8"; 
-            String user = "root"; // Mặc định XAMPP là root
-            String password = ""; // Mặc định XAMPP không có pass
+            String user = "root"; 
+            String password = ""; 
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url, user, password);

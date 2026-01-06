@@ -20,7 +20,6 @@ public class DepartmentPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBackground(Color.WHITE);
 
-        // FORM
         JPanel pnlTop = new JPanel(new GridBagLayout());
         pnlTop.setBackground(Color.WHITE);
         pnlTop.setBorder(BorderFactory.createTitledBorder("Thông tin phòng ban"));
@@ -48,13 +47,11 @@ public class DepartmentPanel extends JPanel {
 
         add(pnlTop, BorderLayout.NORTH);
 
-        // TABLE
         String[] columns = {"Mã PB", "Tên Phòng", "Địa Chỉ", "SĐT", "Ghi Chú"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setRowHeight(25);
-        
-        // Sự kiện click bảng
+
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -72,7 +69,6 @@ public class DepartmentPanel extends JPanel {
         
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // BUTTONS
         JPanel pnlButtons = new JPanel();
         pnlButtons.setBackground(Color.WHITE);
         btnAdd = new JButton("Thêm mới");
@@ -82,7 +78,7 @@ public class DepartmentPanel extends JPanel {
         pnlButtons.add(btnAdd);
         pnlButtons.add(btnEdit);
         pnlButtons.add(btnDelete);
-        pnlButtons.add(new JButton("Xuất PDF")); // Placeholder
+        pnlButtons.add(new JButton("Xuất PDF")); 
         add(pnlButtons, BorderLayout.SOUTH);
     }
     

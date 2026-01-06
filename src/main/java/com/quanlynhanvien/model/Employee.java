@@ -18,8 +18,6 @@ public class Employee {
 
     public Employee() {
     }
-
-    // Constructor dùng cho việc THÊM MỚI (Lấy từ Form xuống)
     public Employee(String maNV, String hoTen, Date ngaySinh, String gioiTinh, String sdt, String queQuan, String email, String maCV, String maPB) {
         this.maNV = maNV;
         this.hoTen = hoTen;
@@ -31,15 +29,11 @@ public class Employee {
         this.maCV = maCV;
         this.maPB = maPB;
     }
-
-    // Constructor đầy đủ (Hiển thị lên bảng)
     public Employee(String maNV, String hoTen, Date ngaySinh, String gioiTinh, String sdt, String queQuan, String email, String maCV, String maPB, String tenChucVu, String tenPhongBan) {
         this(maNV, hoTen, ngaySinh, gioiTinh, sdt, queQuan, email, maCV, maPB);
         this.tenChucVu = tenChucVu;
         this.tenPhongBan = tenPhongBan;
     }
-
-    // --- GETTERS & SETTERS (PHẢI CÓ ĐỦ ĐỂ CONTROLLER GỌI ĐƯỢC) ---
     public String getMaNV() { return maNV; }
     public void setMaNV(String maNV) { this.maNV = maNV; }
 
@@ -61,18 +55,15 @@ public class Employee {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     
-    // Getter cho Ảnh
     public String getHinhAnh() { return hinhAnh; }
     public void setHinhAnh(String hinhAnh) { this.hinhAnh = hinhAnh; }
 
-    // Getter cho Mã CV và Mã PB (Sửa lỗi đỏ ở Controller)
     public String getMaCV() { return maCV; }
     public void setMaCV(String maCV) { this.maCV = maCV; }
 
     public String getMaPB() { return maPB; }
     public void setMaPB(String maPB) { this.maPB = maPB; }
 
-    // Getter cho Tên hiển thị
     public String getTenChucVu() { return tenChucVu; }
     public void setTenChucVu(String tenChucVu) { this.tenChucVu = tenChucVu; }
 

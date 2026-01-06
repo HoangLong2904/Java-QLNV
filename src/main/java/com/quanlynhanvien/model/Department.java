@@ -17,7 +17,6 @@ public class Department {
         this.ghiChu = ghiChu;
     }
 
-    // Getters and Setters
     public String getMaPB() { return maPB; }
     public void setMaPB(String maPB) { this.maPB = maPB; }
     public String getTenPB() { return tenPB; }

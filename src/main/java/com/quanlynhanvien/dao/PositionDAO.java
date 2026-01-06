@@ -59,8 +59,6 @@ public class PositionDAO {
             return ps.executeUpdate() > 0;
         } catch (Exception e) { return false; }
     }
-
-    // Kiểm tra xem chức vụ có đang được sử dụng bởi nhân viên nào không
     public boolean hasEmployees(String maCV) {
         String sql = "SELECT COUNT(*) FROM NhanVien WHERE MaCV = ?";
         try (Connection conn = ConnectDB.getConnection();

@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDAO {
-    
-    // 1. Lấy toàn bộ danh sách phòng ban
+
     public List<Department> getAllDepartments() {
         List<Department> list = new ArrayList<>();
         String sql = "SELECT * FROM PhongBan";
@@ -32,7 +31,6 @@ public class DepartmentDAO {
         return list;
     }
 
-    // 2. Thêm phòng ban mới
     public boolean addDepartment(Department d) {
         String sql = "INSERT INTO PhongBan (MaPB, TenPB, DiaChi, SDT, GhiChu) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConnectDB.getConnection();
@@ -51,7 +49,6 @@ public class DepartmentDAO {
         }
     }
 
-    // 3. Cập nhật thông tin phòng ban
     public boolean updateDepartment(Department d) {
         String sql = "UPDATE PhongBan SET TenPB=?, DiaChi=?, SDT=?, GhiChu=? WHERE MaPB=?";
         try (Connection conn = ConnectDB.getConnection();
@@ -61,7 +58,7 @@ public class DepartmentDAO {
             ps.setString(2, d.getDiaChi());
             ps.setString(3, d.getSdt());
             ps.setString(4, d.getGhiChu());
-            ps.setString(5, d.getMaPB()); // Điều kiện WHERE
+            ps.setString(5, d.getMaPB());
             
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -70,7 +67,6 @@ public class DepartmentDAO {
         }
     }
 
-    // 4. Xóa phòng ban
     public boolean deleteDepartment(String maPB) {
         String sql = "DELETE FROM PhongBan WHERE MaPB=?";
         try (Connection conn = ConnectDB.getConnection();
@@ -85,7 +81,6 @@ public class DepartmentDAO {
         }
     }
 
-    // 5. Kiểm tra phòng ban có nhân viên không (QUAN TRỌNG ĐỂ SỬA LỖI XÓA)
     public boolean hasEmployees(String maPB) {
         String sql = "SELECT COUNT(*) FROM NhanVien WHERE MaPB = ?";
         try (Connection conn = ConnectDB.getConnection();
@@ -96,7 +91,7 @@ public class DepartmentDAO {
             
             if (rs.next()) {
                 int count = rs.getInt(1);
-                return count > 0; // Trả về true nếu số nhân viên > 0
+                return count > 0; 
             }
         } catch (Exception e) {
             e.printStackTrace();

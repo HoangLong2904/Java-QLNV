@@ -29,7 +29,6 @@ public class EmployeeController {
         this.posDao = new PositionDAO();
         this.accDao = new AccountDAO(); 
         
-        // Phân quyền giao diện: Nếu là "0" (Admin) thì cho phép sửa/xóa, "1" (User) thì chỉ xem
         String roleName = "0".equals(role) ? "Admin" : "User";
         this.view.setRole(roleName); 
         
@@ -51,7 +50,6 @@ public class EmployeeController {
         view.showListEmployees(empDao.getAllEmployees());
     }
 
-    // --- CHỨC NĂNG THÊM NHÂN VIÊN ---
     private void addEmployee() {
         Employee emp = view.getEmployeeFromForm();
         
@@ -78,7 +76,6 @@ public class EmployeeController {
         }
     }
     
-    // --- CHỨC NĂNG CẬP NHẬT ---
     private void updateEmployee() {
         Employee emp = view.getEmployeeFromForm();
         if (emp != null) {
@@ -93,7 +90,6 @@ public class EmployeeController {
         }
     }
     
-    // --- CHỨC NĂNG XÓA ---
     private void deleteEmployee() {
         Employee emp = view.getEmployeeFromForm();
         
@@ -118,8 +114,6 @@ public class EmployeeController {
             }
         }
     }
-
-    // --- CHỨC NĂNG XUẤT EXCEL ---
     private void exportToExcel() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Chọn nơi lưu file Excel");

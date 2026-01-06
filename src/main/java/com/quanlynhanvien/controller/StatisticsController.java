@@ -24,10 +24,8 @@ public class StatisticsController {
         this.view = view;
         this.dao = new EmployeeDAO();
 
-        // Mặc định load dữ liệu tháng hiện tại
         loadData();
 
-        // Sự kiện nút
         this.view.addFilterListener(e -> loadData());
         this.view.addExportListener(e -> exportToExcel());
     }
@@ -56,13 +54,11 @@ public class StatisticsController {
                 JTable table = view.getTable();
                 TableModel model = table.getModel();
                 
-                // Header
                 Row headerRow = sheet.createRow(0);
                 for (int i = 0; i < model.getColumnCount(); i++) {
                     headerRow.createCell(i).setCellValue(model.getColumnName(i));
                 }
-                
-                // Data
+
                 for (int i = 0; i < model.getRowCount(); i++) {
                     Row row = sheet.createRow(i + 1);
                     for (int j = 0; j < model.getColumnCount(); j++) {
@@ -70,8 +66,7 @@ public class StatisticsController {
                         row.createCell(j).setCellValue(val != null ? val.toString() : "");
                     }
                 }
-                
-                // Auto size column
+  
                 for(int i=0; i<model.getColumnCount(); i++) sheet.autoSizeColumn(i);
                 
                 try (FileOutputStream out = new FileOutputStream(file)) {

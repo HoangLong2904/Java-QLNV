@@ -7,7 +7,7 @@ public class SalaryStatistic {
     private String chucVu;
     private double luongCoBan;
     private int soNgayNghi;
-    private double tongLuong; // Lấy từ LuongDuKien trong DB
+    private double tongLuong; 
 
     public SalaryStatistic() { }
 
@@ -21,7 +21,6 @@ public class SalaryStatistic {
         this.tongLuong = tongLuong;
     }
 
-    // Getters
     public String getMaNV() { return maNV; }
     public String getHoTen() { return hoTen; }
     public String getPhongBan() { return phongBan; }
@@ -30,7 +29,6 @@ public class SalaryStatistic {
     public int getSoNgayNghi() { return soNgayNghi; }
     public double getTongLuong() { return tongLuong; }
     
-    // Tính số ngày đi làm (Giả sử tháng chuẩn 26 công)
     public int getSoNgayDiLam() {
         int workDays = 30 - soNgayNghi;
         return workDays < 0 ? 0 : workDays;

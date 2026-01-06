@@ -7,13 +7,9 @@ import java.awt.*;
 public class MainView extends JFrame {
     private JPanel pnlCard; 
     private CardLayout cardLayout;
-    
-    // Các màn hình con (View)
     private EmployeeView employeePanel;
     private DepartmentPanel departmentPanel;
     private PositionPanel positionPanel;
-    
-    // MỚI: Panel Thống kê
     private StatisticsPanel statisticsPanel; 
 
     public MainView(String role) {
@@ -23,7 +19,6 @@ public class MainView extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. HEADER ---
         JPanel pnlHeader = new JPanel(new BorderLayout());
         pnlHeader.setBackground(new Color(245, 245, 245)); 
         pnlHeader.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -42,7 +37,6 @@ public class MainView extends JFrame {
         
         add(pnlHeader, BorderLayout.NORTH);
 
-        // --- 2. SIDEBAR (MENU BÊN TRÁI) ---
         JPanel pnlMenu = new JPanel(new GridLayout(10, 1, 5, 5));
         pnlMenu.setBackground(new Color(230, 230, 230));
         pnlMenu.setPreferredSize(new Dimension(220, 0));
@@ -60,22 +54,18 @@ public class MainView extends JFrame {
 
         add(pnlMenu, BorderLayout.WEST);
 
-        // --- 3. MAIN CONTENT (NỘI DUNG CHÍNH) ---
         cardLayout = new CardLayout();
         pnlCard = new JPanel(cardLayout);
         pnlCard.setBackground(Color.WHITE);
 
-        // Khởi tạo các Panel con
         employeePanel = new EmployeeView();
         employeePanel.setRole(role); 
         
         departmentPanel = new DepartmentPanel();
         positionPanel = new PositionPanel(); 
         
-        // MỚI: Khởi tạo Panel Thống kê
         statisticsPanel = new StatisticsPanel(); 
-        
-        // Thêm vào CardLayout
+    
         pnlCard.add(employeePanel, "NHANVIEN");
         pnlCard.add(departmentPanel, "PHONGBAN");
         pnlCard.add(positionPanel, "CHUCVU");
@@ -83,13 +73,11 @@ public class MainView extends JFrame {
 
         add(pnlCard, BorderLayout.CENTER);
 
-        // --- XỬ LÝ SỰ KIỆN CHUYỂN TAB ---
         btnNhanVien.addActionListener(e -> cardLayout.show(pnlCard, "NHANVIEN"));
         btnPhongBan.addActionListener(e -> cardLayout.show(pnlCard, "PHONGBAN"));
         btnChucVu.addActionListener(e -> cardLayout.show(pnlCard, "CHUCVU"));
         btnThongKe.addActionListener(e -> cardLayout.show(pnlCard, "THONGKE"));
-        
-        // Sự kiện Đăng xuất
+
         btnLogout.addActionListener(e -> {
             int choice = JOptionPane.showConfirmDialog(this, "Bạn có muốn đăng xuất không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
@@ -107,15 +95,9 @@ public class MainView extends JFrame {
         btn.setBackground(new Color(225, 225, 225));
         btn.setFocusPainted(false);
         return btn;
-    }
-    
-    // --- GETTERS ĐỂ CONTROLLER GỌI ---
-    public EmployeeView getEmployeePanel() { return employeePanel; }
-    
+    } 
+    public EmployeeView getEmployeePanel() { return employeePanel; }   
     public DepartmentPanel getDepartmentPanel() { return departmentPanel; }
-    
     public PositionPanel getPositionPanel() { return positionPanel; }
-    
-    // MỚI: Getter cho StatisticsPanel
     public StatisticsPanel getStatisticsPanel() { return statisticsPanel; }
 }

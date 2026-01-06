@@ -20,12 +20,10 @@ public class EmployeeView extends JPanel {
     private DefaultTableModel tableModel;
     
     private JTextField txtMaNV, txtHoTen, txtSDT, txtQueQuan, txtEmail;
-    
-    // Ngày sinh
+  
     private JComboBox<String> cbNgay, cbThang, cbNam;
     private JComboBox<String> cbGioiTinh;
-    
-    // THAY ĐỔI LỚN: Dùng ComboBoxItem
+
     private JComboBox<ComboBoxItem> cbChucVu;
     private JComboBox<ComboBoxItem> cbPhongBan;
     
@@ -61,18 +59,14 @@ public class EmployeeView extends JPanel {
         gbc.insets = new Insets(5, 10, 5, 10); 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // --- CỘT 1 ---
-        // Mã NV
         gbc.gridx = 0; gbc.gridy = 0; pnlForm.add(new JLabel("Mã Nhân Viên:"), gbc);
         gbc.gridx = 1; gbc.gridy = 0; gbc.weightx = 1.0; 
         txtMaNV = new JTextField(20); pnlForm.add(txtMaNV, gbc);
 
-        // Họ Tên
         gbc.gridx = 0; gbc.gridy = 1; pnlForm.add(new JLabel("Họ và Tên:"), gbc);
         gbc.gridx = 1; gbc.gridy = 1; 
         txtHoTen = new JTextField(20); pnlForm.add(txtHoTen, gbc);
 
-        // Ngày Sinh
         gbc.gridx = 0; gbc.gridy = 2; pnlForm.add(new JLabel("Ngày Sinh:"), gbc);
         JPanel pnlDate = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         pnlDate.setBackground(Color.WHITE);
@@ -85,29 +79,23 @@ public class EmployeeView extends JPanel {
         pnlDate.add(cbNgay); pnlDate.add(new JLabel("/")); pnlDate.add(cbThang); pnlDate.add(new JLabel("/")); pnlDate.add(cbNam);
         gbc.gridx = 1; gbc.gridy = 2; pnlForm.add(pnlDate, gbc);
 
-        // Giới Tính
         gbc.gridx = 0; gbc.gridy = 3; pnlForm.add(new JLabel("Giới Tính:"), gbc);
         gbc.gridx = 1; gbc.gridy = 3; 
         cbGioiTinh = new JComboBox<>(new String[]{"Nam", "Nữ"}); cbGioiTinh.setBackground(Color.WHITE);
         pnlForm.add(cbGioiTinh, gbc);
 
-        // --- CỘT 2 --- (Thêm các trường mới vào đây)
-        // SĐT
         gbc.gridx = 2; gbc.gridy = 0; gbc.weightx = 0; pnlForm.add(new JLabel("Số Điện Thoại:"), gbc);
         gbc.gridx = 3; gbc.gridy = 0; gbc.weightx = 1.0; 
         txtSDT = new JTextField(20); pnlForm.add(txtSDT, gbc);
 
-        // Quê Quán
         gbc.gridx = 2; gbc.gridy = 1; pnlForm.add(new JLabel("Quê Quán:"), gbc);
         gbc.gridx = 3; gbc.gridy = 1; 
         txtQueQuan = new JTextField(20); pnlForm.add(txtQueQuan, gbc);
 
-        // Email
         gbc.gridx = 2; gbc.gridy = 2; pnlForm.add(new JLabel("Email:"), gbc);
         gbc.gridx = 3; gbc.gridy = 2; 
         txtEmail = new JTextField(20); pnlForm.add(txtEmail, gbc);
         
-        // --- CHỨC VỤ & PHÒNG BAN (MỚI) ---
         gbc.gridx = 2; gbc.gridy = 3; pnlForm.add(new JLabel("Chức Vụ:"), gbc);
         gbc.gridx = 3; gbc.gridy = 3;
         cbChucVu = new JComboBox<>(); cbChucVu.setBackground(Color.WHITE);
@@ -118,7 +106,6 @@ public class EmployeeView extends JPanel {
         cbPhongBan = new JComboBox<>(); cbPhongBan.setBackground(Color.WHITE);
         pnlForm.add(cbPhongBan, gbc);
 
-        // --- NÚT BẤM ---
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         pnlButtons.setBackground(Color.WHITE);
         
@@ -171,7 +158,6 @@ public class EmployeeView extends JPanel {
                     txtQueQuan.setText(table.getValueAt(row, 5).toString());
                     txtEmail.setText(table.getValueAt(row, 6).toString());
                     
-                    // --- CHỌN LẠI COMBOBOX KHI CLICK ---
                     String tenChucVuTrenBang = table.getValueAt(row, 7).toString();
                     String tenPhongBanTrenBang = table.getValueAt(row, 8).toString();
                     
@@ -183,7 +169,6 @@ public class EmployeeView extends JPanel {
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
     
-    // Hàm hỗ trợ chọn ComboBox theo tên hiển thị
     private void selectComboBoxItemByName(JComboBox<ComboBoxItem> cb, String name) {
         for (int i = 0; i < cb.getItemCount(); i++) {
             if (cb.getItemAt(i).getName().equals(name)) {
@@ -193,7 +178,6 @@ public class EmployeeView extends JPanel {
         }
     }
 
-    // --- HÀM CẬP NHẬT DỮ LIỆU CHO COMBOBOX (Controller sẽ gọi hàm này) ---
     public void updateComboBoxData(List<Department> listDep, List<Position> listPos) {
         cbPhongBan.removeAllItems();
         for (Department d : listDep) {
@@ -219,7 +203,6 @@ public class EmployeeView extends JPanel {
             String que = txtQueQuan.getText();
             String email = txtEmail.getText();
             
-            // LẤY MÃ TỪ COMBOBOX
             ComboBoxItem selectedPos = (ComboBoxItem) cbChucVu.getSelectedItem();
             ComboBoxItem selectedDep = (ComboBoxItem) cbPhongBan.getSelectedItem();
             
@@ -243,8 +226,6 @@ public class EmployeeView extends JPanel {
             });
         }
     }
-    
-    // ... (Giữ nguyên các hàm setRole và addListener như cũ)
     public void setRole(String role) {
         boolean isAdmin = "Admin".equalsIgnoreCase(role);
         btnAdd.setEnabled(isAdmin); btnEdit.setEnabled(isAdmin); btnDelete.setEnabled(isAdmin);

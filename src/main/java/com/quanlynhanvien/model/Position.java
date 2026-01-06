@@ -15,7 +15,6 @@ public class Position {
         this.ghiChu = ghiChu;
     }
 
-    // Getters and Setters
     public String getMaCV() { return maCV; }
     public void setMaCV(String maCV) { this.maCV = maCV; }
     public String getTenCV() { return tenCV; }

@@ -18,7 +18,6 @@ public class LoginController {
 
     private void handleLogin() {
         try {
-            // 1. Lấy thông tin từ giao diện
             String user = loginView.getUsername();
             String pass = loginView.getPassword();
 
@@ -32,13 +31,9 @@ public class LoginController {
                 String maNV = accountDAO.getMaNVByUsername(user); 
 
                 loginView.dispose();
-
-                // 4. Kiểm tra quyền để mở màn hình tương ứng
-                // Role "0" là Admin, các role khác (hoặc "1") là User
                 if ("0".equals(role) || "Admin".equalsIgnoreCase(role)) {
                     openAdminScreen(role);
                 } else {
-                    // Nếu là User -> Mở UserView (Màn hình cá nhân)
                     if (maNV != null && !maNV.isEmpty()) {
                         openUserScreen(maNV); 
                     } else {
@@ -53,13 +48,10 @@ public class LoginController {
             JOptionPane.showMessageDialog(loginView, "Lỗi hệ thống: " + e.getMessage());
         }
     }
-    
-    // --- HÀM MỞ GIAO DIỆN ADMIN ---
     private void openAdminScreen(String role) {
         try {
-            MainView mainView = new MainView(role); // Mở MainView
-            
-            // Khởi tạo các controller con để điều khiển từng tab chức năng
+            MainView mainView = new MainView(role);
+
             new EmployeeController(mainView.getEmployeePanel(), role);
             new DepartmentController(mainView.getDepartmentPanel());
             new PositionController(mainView.getPositionPanel());
@@ -71,8 +63,6 @@ public class LoginController {
             JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo màn hình Admin: " + e.getMessage());
         }
     }
-
-    // --- HÀM MỞ GIAO DIỆN USER ---
     private void openUserScreen(String maNV) {
         try {
             UserView userView = new UserView(maNV); 
